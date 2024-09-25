@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\MovimientoResource\Pages;
 
 use App\Filament\Resources\MovimientoResource;
-use App\Models\movimiento;
+use App\Models\Movimiento;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
