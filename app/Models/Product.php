@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class product extends Model
+class Product extends Model
 {
     use HasFactory;
 
@@ -22,11 +22,11 @@ class product extends Model
     }
 
     public function brand(){
-        return $this->belongsTo(brand::class);
+        return $this->belongsTo(Brand::class);
     }
 
     public function movimientos(){
-        return $this->hasMany(movimiento::class);
+        return $this->hasMany(Movimiento::class);
     }
 
     public function stock()

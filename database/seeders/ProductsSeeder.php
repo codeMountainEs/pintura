@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\product;
+use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -21,7 +21,7 @@ class ProductsSeeder extends Seeder
         ];
 
         foreach ($productos as $producto) {
-            product::create([
+            Product::create([
                 'name' => $producto,
                 'slug' => $producto,
                 'category_id' => 1,

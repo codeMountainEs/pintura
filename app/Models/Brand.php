@@ -19,7 +19,7 @@ class Brand extends Model
     protected $fillable = ['name', 'slug', 'image','is_active'];
 
     public function products() {
-        return $this->hasMany(product::class);
+        return $this->hasMany(Product::class);
     }
 
     public static function getForm($brandId = null) : array
