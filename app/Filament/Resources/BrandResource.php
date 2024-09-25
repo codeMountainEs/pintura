@@ -26,7 +26,7 @@ protected static ?string $label = 'Marcas';
     {
         return $form
             ->schema(
-                brand::getForm()
+                Brand::getForm()
 
             );
     }

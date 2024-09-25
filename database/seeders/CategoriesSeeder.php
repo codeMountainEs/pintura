@@ -21,7 +21,7 @@ class CategoriesSeeder extends Seeder
         ];
 
         foreach ($marcas as $marca) {
-            category::create(['name' => $marca,'slug' => $marca]);
+            Category::create(['name' => $marca,'slug' => $marca]);
         }
     }
 }

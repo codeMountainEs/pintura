@@ -23,9 +23,9 @@ class ListMovimientos extends ListRecords
     public function getTabs(): array
     {
         return [
-            null => Tab::make('Todos')->badge(movimiento::count()),
-            'Compras' => Tab::make()->query(fn($query) => $query->where('tipo','Compras'))->badge(movimiento::where('tipo','Compras')->count()),
-            'Ventas' => Tab::make()->query(fn($query) => $query->where('tipo','Ventas'))->badge(movimiento::where('tipo','Ventas')->count()),
+            null => Tab::make('Todos')->badge(Movimiento::count()),
+            'Compras' => Tab::make()->query(fn($query) => $query->where('tipo','Compras'))->badge(Movimiento::where('tipo','Compras')->count()),
+            'Ventas' => Tab::make()->query(fn($query) => $query->where('tipo','Ventas'))->badge(Movimiento::where('tipo','Ventas')->count()),
 
 
 

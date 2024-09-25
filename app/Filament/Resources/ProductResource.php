@@ -93,7 +93,7 @@ class ProductResource extends Resource
                             ->preload()
                             ->relationship('category', 'name')
                             ->createOptionForm(
-                               category::getForm()
+                               Category::getForm()
                             ),
                     ]),
                     Forms\Components\Section::make('Marca')->schema([

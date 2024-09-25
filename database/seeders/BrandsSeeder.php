@@ -21,7 +21,7 @@ class BrandsSeeder extends Seeder
         ];
 
         foreach ($marcas as $marca) {
-            brand::create(['name' => $marca, 'slug' => $marca]);
+            Brand::create(['name' => $marca, 'slug' => $marca]);
         }
     }
 }
