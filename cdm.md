@@ -51,5 +51,41 @@ php artisan make:seeder BrandsSeeder
 php artisan make:seeder CategoriesSeeder
 php artisan make:seeder ProductsSeeder
 
+# filament
 
+
+
+composer require filament/filament:"^3.2" -W
+
+php artisan filament:install --panels
+
+php artisan make:filament-user
+
+php artisan storage:link
+
+php artisan make:filament-resource User
+
+# translations
+ php artisan vendor:publish --tag=filament-panels-translations
+ php artisan vendor:publish --tag=filament-actions-translations
+
+php artisan vendor:publish --tag=filament-forms-translations
+
+php artisan vendor:publish --tag=filament-infolists-translations
+
+php artisan vendor:publish --tag=filament-notifications-translations
+
+php artisan vendor:publish --tag=filament-tables-translations
+
+php artisan vendor:publish --tag=filament-translations
+
+
+# resources
+
+php artisan make:filament-resource Category --generate
+php artisan make:filament-resource Brand --generate
+
+php artisan make:filament-resource Product --generate
+
+php artisan make:filament-resource Movimiento --generate
 

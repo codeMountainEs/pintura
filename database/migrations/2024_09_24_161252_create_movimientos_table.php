@@ -21,8 +21,8 @@ return new class extends Migration
 
             // salida se compra en litros se saca por m2 caluclameos el rendimiento
             $table->string('descripcion')->nullable();
-            $table->integer('capas')->nullable(); // numero
-            $table->decimal('rendimiento',10,2)->nullable(); // por capa m2/L
+            $table->integer('capas')->nullable()->default(1); // numero
+            $table->decimal('rendimiento',10,2)->default(1)->nullable(); // por capa m2/L
             $table->decimal('superficie',10,2)->nullable();// total a pintar en m2
 
 
