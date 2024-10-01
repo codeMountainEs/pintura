@@ -22,37 +22,40 @@ class Brand extends Model
         return $this->hasMany(Product::class);
     }
 
-    public static function getForm($brandId = null) : array
+    public static function getForm($categoryId = null) : array
     {
         return [
+
             Section::make([
-                Grid::make()
-                    ->schema([
+                    Grid::make()
+                        ->schema([
+                            TextInput::make('name')
+                                ->required()
+                                ->maxLength(255)
+                                ->live()
+                                ->afterStateUpdated(
+                                // fn(string $operation, $state, Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
+                                    fn(string $operation, $state, Set $set) =>  $set('slug', Str::slug($state)) ),
 
-                        TextInput::make('name')
-                            ->required()
-                            ->maxLength(255)
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(
-                                fn (string $operation, $state , Set $set) =>
-                                $set('slug', Str::slug($state)) ),
+                            TextInput::make('slug')
+                                ->maxLength(255)
+                                ->disabled()
+                                ->required()
+                                ->dehydrated()
+                                ->unique(Category::class, 'slug', ignoreRecord: true),
 
-                        TextInput::make('slug')
-                            ->maxLength(255)
-                            ->disabled()
-                            ->required()
-                            ->dehydrated()
-                            ->unique(Brand::class, 'slug', ignoreRecord: true),
 
-                    ]),
-                FileUpload::make('image')
-                    ->image()
-                    ->directory('brands'),
+                        ]),
+                    FileUpload::make('image')
+                        ->image()
+                        ->directory('brands'),
 
-                Toggle::make('is_active')
-                    ->default(true)
-                    ->required(),
-            ])
-        ];
+                    Toggle::make('is_active')
+                        ->default(true)
+                        ->required(),
+
+                ]
+            )];
+
     }
 }

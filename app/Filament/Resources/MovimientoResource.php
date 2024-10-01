@@ -24,6 +24,25 @@ class MovimientoResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function calculateTotal($state, $get, $set): void
+    {
+            $total = $get('precio')  * $get('cantidad') ;
+        //dd($get('precio') , $get('cantidad'), $total);
+            $set('total', number_format($total, 2,'.',''));
+
+    }
+    public static function calculateCantidad( $get, $set): void
+    {
+
+        if ($get('tipo') === 'Salidas') {
+            $cantidad = $get('capas') * ($get('superficie') / $get('rendimiento'));
+        } else {
+            $cantidad = 1; // Ejemplo de valor por defecto
+        }
+        $set('cantidad', number_format($cantidad, 2,'.',''));
+
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -37,41 +56,51 @@ class MovimientoResource extends Resource
                             ,
                             Forms\Components\ToggleButtons::make('tipo')
                                 ->inline()
-                                ->default('Ventas')
+                                ->default('Salidas')
+                                ->live()
                                 ->columnSpanFull()
                                 ->options([
-                                    'Compras' => 'Compras',
-                                    'Ventas' => 'Ventas',
+                                    'Entradas' => 'Entradas',
+                                    'Salidas' => 'Salidas',
                                 ])
                                 ->colors([
                                     'Compras' => 'primary',
-                                    'Ventas' => 'success',
+                                    'Entradas' => 'success',
                                 ])
                                 ->icons([
-                                    'Ventas' => 'heroicon-m-sparkles',
-                                    'Compras' => 'heroicon-m-arrow-path',
+                                    'Salidas' => 'heroicon-m-sparkles',
+                                    'Entradas' => 'heroicon-m-arrow-path',
 
                                 ]),
                             Forms\Components\TextInput::make('origen')
+                                ->live()
+                                ->visible(fn (Forms\Get $get): bool => $get('tipo') === 'Entradas')
                                 ->columnSpanFull(),
 
                             Forms\Components\TextInput::make('destino')
+                                ->live()
+                                ->visible(fn (Forms\Get $get): bool => $get('tipo') === 'Salidas')
                                 ->columnSpanFull(),
 
                             Forms\Components\Select::make('product_id')
                                 ->relationship('product', 'name')
                                 ->required()
-                                ->live(onBlur: true)
+                                ->live()
                                 ->preload()
                                 ->columnSpanFull()
+                                ->createOptionForm(
+                                    Product::getForm()
+                                )
                                 ->afterStateUpdated(
                                     fn($state, Forms\Set $set) => [
                                         $set('descripcion', Product::find($state)?->description ?? 'li'),
 
                                         $set('medida', Product::find($state)?->medida ?? 'li'),
                                         $set('rendimiento', Product::find($state)?->rendimiento ?? '1'),
-                                        $set('precio', Product::find($state)?->price ?? 1),
+                                        $set('precio', Product::find($state)?->price ?? 0),
                                         $set('stock', Product::find($state)?->stock() ?? 1),
+                                        $set('superficie', 1),
+
                                     ]
                                 ),
                             Forms\Components\TextInput::make('stock')
@@ -80,6 +109,7 @@ class MovimientoResource extends Resource
                                 ->readOnly(true),
                             Forms\Components\TextInput::make('descripcion')
                                 ->columnSpanFull(),
+
                         ])->columns(2),
 
                 ])->columnSpan(2),
@@ -89,44 +119,68 @@ class MovimientoResource extends Resource
 
                         Forms\Components\TextInput::make('capas')
                             ->default(1)
+                            ->afterStateUpdated(
+                                function ($state, Forms\Get $get, Set $set) {
+                                    self::calculateCantidad( $get, $set);
+                                }
+                            )
                             ->numeric(),
                         Forms\Components\TextInput::make('rendimiento')
-                            ->prefix('M2/L')
+                            ->prefix('kg/M2')
+                            ->afterStateUpdated(
+                                function ($state, Forms\Get $get, Set $set) {
+                                    self::calculateCantidad( $get, $set);
+                                }
+                            )
                             ->numeric(),
                         Forms\Components\TextInput::make('superficie')
                             ->required()
-                            ->live(onBlur: true)
+                            ->default(1)
+                            ->visible(fn (Forms\Get $get): bool => $get('tipo') === 'Salidas')
+                            ->live()
                             ->prefix('M2')
                             ->afterStateUpdated(
-                                fn($state, Forms\Get $get, Set $set) => [
-                                    $set('cantidad', ($state * $get('capas')) / $get('rendimiento')),
-                                    $set('total', round($get('precio') * $get('cantidad'), 2))
-                                ]
+                                function ($state, Forms\Get $get, Set $set) {
+                                    self::calculateCantidad( $get, $set);
+                                }
                             )
                             ->numeric(),
 
                         Forms\Components\TextInput::make('precio')
-                            ->live(onBlur: true)
+                            ->live( debounce: 500)
                             ->afterStateUpdated(
-                                fn($state, Forms\Get $get, Set $set) => [
-                                    $set('total', round($state * $get('cantidad'), 2))
-                                ]
+                                function ($state, Forms\Get $get, Set $set) {
+
+                                    self::calculateTotal($state, $get, $set);
+                                }
                             )
                             ->numeric()
-                            ->required()
                             ->prefix('EUR'),
 
                         Forms\Components\TextInput::make('cantidad')
                             ->numeric()
                             ->required()
-                            ->prefix('Litros'),
+                            ->default(1)
+                            ->live( debounce: 500)
 
+                            ->prefix(function ( Forms\Get $get){
+                                return match ($get('tipo')) {
+                                    'Entradas' => 'Kilos',
+                                    'Salidas' => 'Litros',
+                                    default => 'litros',
+                                };
+                            }
+                            )
+                            ->afterStateUpdated(
+                                function ($state, Forms\Get $get, Set $set) {
 
-                        //Cantidad de pintura necesaria: (10 m² * 2 capas) / 10 m²/L = 2 litros
-                        // superficie x capas / rendimiento
+                                    self::calculateTotal($state, $get, $set);
+                                }
+                            ),
 
                         Forms\Components\TextInput::make('total')
                             ->numeric()
+                            ->default(0)
                             ->required()
                             ->disabled()
                             ->dehydrated()
@@ -137,6 +191,8 @@ class MovimientoResource extends Resource
 
             ])->columns(3);
     }
+
+
 
     public static function table(Table $table): Table
     {

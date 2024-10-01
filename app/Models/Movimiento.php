@@ -21,18 +21,18 @@ class Movimiento extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
-    public function ventas()
+    public function salidas()
     {
        return $this->movimientos()
-                ->where('tipo', 'Ventas')
+                ->where('tipo', 'Salidas')
                 ->count();
 
     }
 
-    public function compras()
+    public function entradas()
     {
         return $this->movimientos()
-            ->where('tipo', 'Compras')
+            ->where('tipo', 'Entradas')
             ->count();
 
     }
