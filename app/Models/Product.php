@@ -85,15 +85,40 @@ class Product extends Model
                             Select::make('medida')
                                 ->options([
                                     'Litros' => 'Litros',
-                                    'M2' => 'M2'
-                                ])->default('Litros'),
+                                    'Kg' => 'Kg'
+                                ])->default('Kg'),
+
                             TextInput::make('rendimiento')
                                 ->default(1)
                                 ->suffix('Litros/M2'),
 
+
+                                 Select::make('category_id')
+                                     ->required()
+                                     ->label('Categoria')
+                                     ->searchable()
+                                     ->preload()
+                                     ->relationship('category', 'name')
+                                     ->createOptionForm(
+                                         Category::getForm()
+                                     ),
+
+
+                        Select::make('brand_id')
+                            ->label('Marca')
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->relationship('brand', 'name')
+                            ->createOptionForm(
+                                Brand::getForm()
+                            ),
                             MarkdownEditor::make('description')
                                 ->columnSpanFull()
-                                ->fileAttachmentsDirectory('products')
+                                ->fileAttachmentsDirectory('products'),
+
+
+
 
                         ])->columns(2),
 
@@ -112,7 +137,6 @@ class Product extends Model
 
                 ])->columnSpan(2),
 
-                Group::make()->schema([
                     Section::make('Price')->schema([
                         TextInput::make('price')
                             ->label('Precio')
@@ -120,44 +144,26 @@ class Product extends Model
                             ->default(0)
                             ->prefix('EUR')
                     ]),
-                    Section::make('Categorías')->schema([
-                        Select::make('category_id')
-                            ->required()
-                            ->label('Categoria')
-                            ->searchable()
-                            ->preload()
-                            ->relationship('category', 'name')
-                            ->createOptionForm(
-                                Category::getForm()
-                            ),
-                    ]),
-                    Section::make('Marca')->schema([
-                        Select::make('brand_id')
-                            ->label('Marca')
-                            ->required()
-                            ->searchable()
-                            ->preload()
-                            ->relationship('brand', 'name')
-                            ->createOptionForm(
-                                Brand::getForm()
-                            ),
-                    ]),
+
                     Section::make('Status')->schema([
                         Toggle::make('in_stock')
                             ->required()
+                            ->inline()
                             ->default(true),
                         Toggle::make('is_active')
                             ->required()
+                            ->inline()
                             ->default(true),
                         Toggle::make('is_featured')
                             ->required()
+                            ->inline()
                             ->default(true),
                         Toggle::make('on_sale')
                             ->required()
+                            ->inline()
                             ->default(true),
                     ]),
 
-                ])->columnSpan(1),
 
 
             ]),

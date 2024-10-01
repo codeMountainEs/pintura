@@ -127,9 +127,11 @@ class MovimientoResource extends Resource
                             ->numeric(),
                         Forms\Components\TextInput::make('rendimiento')
                             ->prefix('kg/M2')
+                            ->live(debounce: 500)
                             ->afterStateUpdated(
                                 function ($state, Forms\Get $get, Set $set) {
                                     self::calculateCantidad( $get, $set);
+                                    self::calculateTotal($state, $get, $set);
                                 }
                             )
                             ->numeric(),
@@ -142,6 +144,7 @@ class MovimientoResource extends Resource
                             ->afterStateUpdated(
                                 function ($state, Forms\Get $get, Set $set) {
                                     self::calculateCantidad( $get, $set);
+                                    self::calculateTotal($state, $get, $set);
                                 }
                             )
                             ->numeric(),
@@ -166,8 +169,8 @@ class MovimientoResource extends Resource
                             ->prefix(function ( Forms\Get $get){
                                 return match ($get('tipo')) {
                                     'Entradas' => 'Kilos',
-                                    'Salidas' => 'Litros',
-                                    default => 'litros',
+                                    'Salidas' => 'Kilos',
+                                    default => 'Kilos',
                                 };
                             }
                             )
