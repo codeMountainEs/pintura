@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Route;
 Route::resource('/', AccesoController::class)
 ->only('index', 'store');
 
+
+Route::resource('/teclado', AccesoController::class);
+
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');

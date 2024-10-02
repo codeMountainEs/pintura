@@ -53,7 +53,7 @@ new class extends Component {
         if (!$usuario) {
             // Si el usuario no existe, mostrar un mensaje de error
             session()->flash('error', 'El código de teclado no es válido.');
-            return redirect('/');
+            return redirect('/teclado');
         }
         \App\Models\Acceso::create([
             'user_id' => $usuario['id'], // Asumimos que el usuario está autenticado
@@ -63,7 +63,7 @@ new class extends Component {
         $this->reset(['botonesSeleccionados', 'mostrarAsteriscos']);
         $this->resetear();
 
-        $this->redirect('/');
+        $this->redirect('/teclado');
 
 
     }
@@ -92,6 +92,37 @@ new class extends Component {
                 </h1>
             </div>
             <!-- End Title -->
+
+
+            <div class="sm:flex  sm:justify-center sm:items-center text-center sm:text-start">
+                <div x-data="{ showMessage: true }" x-init="setTimeout(() => showMessage = false, 3000)">
+                    @if (session()->has('message'))
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert"  
+                             x-show="showMessage">
+                            <strong class="font-bold">Correcto!</strong>
+                            <span class="block sm:inline">{{ session('message') }}</span>
+                            <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                                        <svg class="fill-current  
+                     h-6 w-6 text-green-500"  
+                                             fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 13l14 14-1.42 1.42L4 4h16v12H5z"/></svg>
+                                    </span>
+                        </div>
+                    @elseif (session()->has('error'))
+
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert"  
+                             x-show="showMessage">
+                            <strong class="font-bold">ERROR!</strong>
+                            <span class="block sm:inline">{{ session('error') }}</span>
+                            <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                                        <svg class="fill-current  
+                     h-6 w-6 text-green-500"  
+                                             fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 13l14 14-1.42 1.42L4 4h16v12H5z"/></svg>
+                                    </span>
+                        </div>
+                    @endif
+
+                </div>
+            </div>
 
 
 
