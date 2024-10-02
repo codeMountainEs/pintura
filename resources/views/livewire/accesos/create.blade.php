@@ -55,11 +55,31 @@ new class extends Component {
             session()->flash('error', 'El código de teclado no es válido.');
             return redirect('/teclado');
         }
+
+
+        // Obtener los accesos de hoy para este usuario
+        $accesosHoy = \App\Models\Acceso::where('user_id', $usuario['id'])
+            ->whereDate('created_at', \Carbon\Carbon::today())
+            ->count();
+
+        // Lógica para determinar el tipo de acceso
+        if ($accesosHoy === 0) { // Si no hay accesos hoy, es una entrada
+            $tipo = ' ENTRADA ';
+        } elseif ($accesosHoy === 1) { // Si hay 2 accesos hoy, es una salida
+            $tipo = ' SALIDA ';
+        } else { // Si hay más de 2 o menos de 2 accesos, es un error
+            //return response()->json(['error' => 'Número de accesos inválido'], 400);
+            session()->flash('error', 'Numero de accesos invalido.');
+            return redirect('/teclado');
+        }
+
+
+
         \App\Models\Acceso::create([
             'user_id' => $usuario['id'], // Asumimos que el usuario está autenticado
         ]);
 
-        session()->flash('message', $usuario['name'].':  Registro Realizado Correctamente');
+        session()->flash('message', $usuario['name'].':  Registro '.$tipo.' Realizado Correctamente     ('.$accesosHoy.')');
         $this->reset(['botonesSeleccionados', 'mostrarAsteriscos']);
         $this->resetear();
 
@@ -101,7 +121,7 @@ new class extends Component {
                              x-show="showMessage">
                             <strong class="font-bold">Correcto!</strong>
                             <span class="block sm:inline">{{ session('message') }}</span>
-                            <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                            <span class="absolute top-10 bottom-0 right-0 px-4 py-3">
                                         <svg class="fill-current  
                      h-6 w-6 text-green-500"  
                                              fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 13l14 14-1.42 1.42L4 4h16v12H5z"/></svg>
@@ -113,7 +133,7 @@ new class extends Component {
                              x-show="showMessage">
                             <strong class="font-bold">ERROR!</strong>
                             <span class="block sm:inline">{{ session('error') }}</span>
-                            <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                            <span class="absolute top-10 bottom-1 right-0 px-4 py-3">
                                         <svg class="fill-current  
                      h-6 w-6 text-green-500"  
                                              fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 13l14 14-1.42 1.42L4 4h16v12H5z"/></svg>

@@ -89,13 +89,20 @@ php artisan make:filament-resource Product --generate
 
 php artisan make:filament-resource Movimiento --generate
 
+** 
+php artisan make:filament-resource User --generate
+ojo password de filament
 
-install preline 
+php artisan make:filament-resource Acceso --generate
+
+
+
+# install preline 
 
 npm install preline // or yarn add preline
 
 
-BOOTCAMP--LIVEWIRE
+# BOOTCAMP--LIVEWIRE
 
 
 php artisan make:model -mc Acceso
