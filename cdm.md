@@ -89,3 +89,32 @@ php artisan make:filament-resource Product --generate
 
 php artisan make:filament-resource Movimiento --generate
 
+
+install preline 
+
+npm install preline // or yarn add preline
+
+
+BOOTCAMP--LIVEWIRE
+
+
+php artisan make:model -mc Acceso
+route  -> AccesoController index 
+Controller -> view   /resources/views/accesos.blade.php 
+
+
+
+php artisan make:volt chirps/create --class
+/resources/views/livewire/accesos/create.blade.php
+
+
+
+# Añadir teclado_id a user
+
+php artisan composer make:migration add_teclado_id_to_users
+
+# Notificaciones 
+
+php artisan make:notification NuevoAcceso
+
+

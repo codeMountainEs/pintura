@@ -26,7 +26,7 @@ class MovimientoResource extends Resource
 
     public static function calculateTotal($state, $get, $set): void
     {
-            $total = $get('precio') ?? 0  * $get('cantidad') ?? '' ;
+            $total = $get('precio') ?? 0  * $get('cantidad') ?? 0 ;
         //dd($get('precio') , $get('cantidad'), $total);
             $set('total', number_format($total, 2,'.',''));
 
@@ -34,8 +34,12 @@ class MovimientoResource extends Resource
     public static function calculateCantidad( $get, $set): void
     {
 
+        $capas = $get('capas') ?? 0 ;
+        $superficie = $get('superficie') ?? 0 ;
+        $rendimiento = $get('rendimiento') ?? 1;
+
         if ($get('tipo') === 'Salidas') {
-            $cantidad = $get('capas') ?? 0 * ($get('superficie') ?? 0 / $get('rendimiento') ?? 0);
+            $cantidad = $capas  * ($superficie  / $rendimiento);
         } else {
             $cantidad = 1; // Ejemplo de valor por defecto
         }

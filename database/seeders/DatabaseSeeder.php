@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@cdm.com',
+            'teclado_id' => 1111
         ]);
 
 

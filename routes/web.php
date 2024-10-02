@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AccesoController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome');
+Route::resource('/', AccesoController::class)
+->only('index', 'store');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

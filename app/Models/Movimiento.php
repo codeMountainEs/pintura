@@ -36,4 +36,6 @@ class Movimiento extends Model
             ->count();
 
     }
+
+
 }
