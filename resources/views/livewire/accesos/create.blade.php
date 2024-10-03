@@ -77,6 +77,9 @@ new class extends Component {
 
         \App\Models\Acceso::create([
             'user_id' => $usuario['id'], // Asumimos que el usuario está autenticado
+            'fecha' => \Carbon\Carbon::now()->format('Y-m-d'),
+            'hora' => \Carbon\Carbon::now()->format('H:i:s'),
+            'descripcion' => $tipo,
         ]);
 
         session()->flash('message', $usuario['name'].':  Registro '.$tipo.' Realizado Correctamente     ('.$accesosHoy.')');
@@ -100,7 +103,7 @@ new class extends Component {
 } ?>
 
 <div class="overflow-hidden">
-    <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-5">
         <div class="relative mx-auto max-w-4xl grid space-y-5 sm:space-y-10">
             <!-- Title -->
             <div class="text-center">
@@ -139,11 +142,33 @@ new class extends Component {
                                              fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 13l14 14-1.42 1.42L4 4h16v12H5z"/></svg>
                                     </span>
                         </div>
+
+
+                    @else
+                        <div class="sm:flex sm:justify-center sm:items-center text-center sm:text-start">
+                            <div  id="asteriscos" class="text-6xl"> {{ $mostrarAsteriscos }} </div>
+                        </div>
+                        @if ($muestro)
+                            <div wire:visible="muestro" class="sm:flex sm:justify-center sm:items-center text-center sm:text-start">
+                                <div  wire:visible="muestro"  class="text-3xl"> Código debe ser 4 dígitos</div>
+                                <button
+                                    wire:visible="muestro"
+                                    wire:click="resetear"
+                                    type="button" class="py-9 px-9 inline-flex items-center gap-x-14 text-3xl font-medium rounded-lg border border-gray-200 bg-white text-teal-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+                                    Resetear
+                                </button>
+                            </div>
+                        @endif
+
+
+
+
                     @endif
+
+
 
                 </div>
             </div>
-
 
 
             <!-- Avatar Group -->
@@ -263,20 +288,7 @@ new class extends Component {
                 </div>
 
 
-                <div class="sm:flex sm:justify-center sm:items-center text-center sm:text-start">
-                    <div  id="asteriscos" class="text-6xl"> {{ $mostrarAsteriscos }} </div>
-                </div>
-                @if ($muestro)
-                <div wire:visible="muestro" class="sm:flex sm:justify-center sm:items-center text-center sm:text-start">
-                    <div  wire:visible="muestro"  class="text-3xl"> Código debe ser 4 dígitos</div>
-                    <button
-                        wire:visible="muestro"
-                        wire:click="resetear"
-                        type="button" class="py-9 px-9 inline-flex items-center gap-x-14 text-3xl font-medium rounded-lg border border-gray-200 bg-white text-teal-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
-                        Resetear
-                    </button>
-                </div>
-                @endif
+
 
 
 
