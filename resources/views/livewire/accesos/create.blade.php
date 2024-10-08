@@ -205,16 +205,16 @@ new class extends Component {
                     <div class="inline-flex rounded-lg shadow-sm">
                         <button wire:click="seleccionarBoton(1)" type="button" class="py-9 px-9 inline-flex items-center
                         gap-x-14 text-6xl font-medium rounded-lg border border-gray-200
-                        bg-white text-gray-800 shadow-sm hover:bg-blue-300
-                        focus:outline-none focus:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none
+                        bg-white text-gray-800 shadow-sm hover:bg-gray-50
+                        focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none
                         dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700
                         dark:focus:bg-neutral-700">
                             1
                         </button>
-                        <button wire:click="seleccionarBoton(2)" type="button" class="py-9 px-9 inline-flex items-center gap-x-14 text-6xl font-medium rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm hover:bg-blue-300 focus:outline-none focus:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+                        <button wire:click="seleccionarBoton(2)" type="button" class="py-9 px-9 inline-flex items-center gap-x-14 text-6xl font-medium rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
                             2
                         </button>
-                        <button wire:click="seleccionarBoton(3)" type="button" class="py-9 px-9 inline-flex items-center gap-x-14 text-6xl font-medium rounded-lg border border-gray-200 bg-white text-teal-500 shadow-sm hover:bg-blue-300 focus:outline-none focus:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+                        <button wire:click="seleccionarBoton(3)" type="button" class="py-9 px-9 inline-flex items-center gap-x-14 text-6xl font-medium rounded-lg border border-gray-200 bg-white text-teal-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
                             3
                         </button>
 
@@ -228,16 +228,16 @@ new class extends Component {
                     <div class="inline-flex rounded-lg shadow-sm">
                         <button wire:click="seleccionarBoton(4)" type="button" class="py-9 px-9 inline-flex items-center
                         gap-x-14 text-6xl font-medium rounded-lg border border-gray-200
-                        bg-white text-gray-800 shadow-sm hover:bg-blue-300
-                        focus:outline-none focus:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none
+                        bg-white text-gray-800 shadow-sm hover:bg-gray-50
+                        focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none
                         dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700
                         dark:focus:bg-neutral-700">
                             4
                         </button>
-                        <button wire:click="seleccionarBoton(5)" type="button" class="py-9 px-9 inline-flex items-center gap-x-14 text-6xl font-medium rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm hover:bg-blue-300 focus:outline-none focus:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+                        <button wire:click="seleccionarBoton(5)" type="button" class="py-9 px-9 inline-flex items-center gap-x-14 text-6xl font-medium rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
                             5
                         </button>
-                        <button wire:click="seleccionarBoton(6)" type="button" class="py-9 px-9 inline-flex items-center gap-x-14 text-6xl font-medium rounded-lg border border-gray-200 bg-white text-teal-500 shadow-sm hover:bg-blue-300 focus:outline-none focus:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+                        <button wire:click="seleccionarBoton(6)" type="button" class="py-9 px-9 inline-flex items-center gap-x-14 text-6xl font-medium rounded-lg border border-gray-200 bg-white text-teal-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
                             6
                         </button>
 
@@ -249,16 +249,16 @@ new class extends Component {
                     <div class="inline-flex rounded-lg shadow-sm">
                         <button wire:click="seleccionarBoton(7)" type="button" class="py-9 px-9 inline-flex items-center
                         gap-x-14 text-6xl font-medium rounded-lg border border-gray-200
-                        bg-white text-gray-800 shadow-sm hover:bg-blue-300
-                        focus:outline-none focus:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none
+                        bg-white text-gray-800 shadow-sm hover:bg-gray-50
+                        focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none
                         dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700
                         dark:focus:bg-neutral-700">
                             7
                         </button>
-                        <button wire:click="seleccionarBoton(8)" type="button" class="py-9 px-9 inline-flex items-center gap-x-14 text-6xl font-medium rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm hover:bg-blue-300 focus:outline-none focus:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+                        <button wire:click="seleccionarBoton(8)" type="button" class="py-9 px-9 inline-flex items-center gap-x-14 text-6xl font-medium rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
                             8
                         </button>
-                        <button wire:click="seleccionarBoton(9)" type="button" class="py-9 px-9 inline-flex items-center gap-x-14 text-6xl font-medium rounded-lg border border-gray-200 bg-white text-teal-500 shadow-sm hover:bg-blue-300 focus:outline-none focus:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+                        <button wire:click="seleccionarBoton(9)" type="button" class="py-9 px-9 inline-flex items-center gap-x-14 text-6xl font-medium rounded-lg border border-gray-200 bg-white text-teal-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
                             9
                         </button>
 
@@ -270,8 +270,8 @@ new class extends Component {
                     <div class="inline-flex rounded-lg shadow-sm">
                         <button wire:click="seleccionarBoton(0)" type="button" class="py-9 px-9 inline-flex items-center
                         gap-x-14 text-6xl font-medium rounded-lg border border-gray-200
-                        bg-white text-gray-800 shadow-sm hover:bg-blue-300
-                        focus:outline-none focus:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none
+                        bg-white text-gray-800 shadow-sm hover:bg-gray-50
+                        focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none
                         dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700
                         dark:focus:bg-neutral-700">
                             0
