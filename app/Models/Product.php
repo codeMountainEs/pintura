@@ -65,7 +65,7 @@ class Product extends Model
                             TextInput::make('name')
                                 ->required()
                                 ->maxLength(255)
-                                ->live( debounce: 500)
+                                ->live( onBlur: true)
                                 ->afterStateUpdated(
                                     function (string $operation, $state , Set $set) {
                                     //dd(Str::slug($state));
