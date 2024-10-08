@@ -3,8 +3,10 @@
 use App\Http\Controllers\AccesoController;
 use Illuminate\Support\Facades\Route;
 
-Route::resource('/', AccesoController::class)
-->only('index', 'store');
+/*Route::resource('/', AccesoController::class)
+->only('index', 'store');*/
+
+Route::get('/', \App\Livewire\HomePage::class);
 
 
 Route::resource('/teclado', AccesoController::class);

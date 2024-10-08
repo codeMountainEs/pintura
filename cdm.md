@@ -125,3 +125,15 @@ php artisan composer make:migration add_teclado_id_to_users
 php artisan make:notification NuevoAcceso
 
 
+# FRONTEND - DCODEMANIA
+* HOMEPAGE
+php artisan make:livewire HomePage
+
+
+php artisan livewire:layout
+
+php artisan make:livewire partials.navbar
+php artisan make:livewire partials.footer
+
+
+

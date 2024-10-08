@@ -53,7 +53,7 @@ new class extends Component {
         if (!$usuario) {
             // Si el usuario no existe, mostrar un mensaje de error
             session()->flash('error', 'El código de teclado no es válido.');
-            return redirect('/teclado');
+            return redirect('/');
         }
 
 
@@ -70,7 +70,7 @@ new class extends Component {
         } else { // Si hay más de 2 o menos de 2 accesos, es un error
             //return response()->json(['error' => 'Número de accesos inválido'], 400);
             session()->flash('error', 'Numero de accesos invalido.');
-            return redirect('/teclado');
+            return redirect('/');
         }
 
 
@@ -86,7 +86,7 @@ new class extends Component {
         $this->reset(['botonesSeleccionados', 'mostrarAsteriscos']);
         $this->resetear();
 
-        $this->redirect('/teclado');
+        $this->redirect('/');
 
 
     }
@@ -119,7 +119,7 @@ new class extends Component {
             <!-- End Title -->
 
 
-            <div class="!h-50  w-full sm:flex  sm:justify-center sm:items-center text-center sm:text-start">
+            <div class=" h-2 w-full sm:flex  sm:justify-center sm:items-center text-center sm:text-start">
                 <div x-data="{ showMessage: true }" x-init="setTimeout(() => showMessage = false, 3000)">
                     @if (session()->has('message'))
                         <div class="h-full w-full bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert"  
