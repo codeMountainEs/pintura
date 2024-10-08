@@ -119,10 +119,10 @@ new class extends Component {
             <!-- End Title -->
 
 
-            <div class="h-50 !h-auto w-full sm:flex  sm:justify-center sm:items-center text-center sm:text-start">
+            <div class="sm:flex  sm:justify-center sm:items-center text-center sm:text-start">
                 <div x-data="{ showMessage: true }" x-init="setTimeout(() => showMessage = false, 3000)">
                     @if (session()->has('message'))
-                        <div class="h-full w-full bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert"  
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert"  
                              x-show="showMessage">
                             <strong class="font-bold">Correcto!</strong>
                             <span class="block sm:inline">{{ session('message') }}</span>
@@ -134,7 +134,7 @@ new class extends Component {
                         </div>
                     @elseif (session()->has('error'))
 
-                        <div class="h-full w-full bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert"  
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert"  
                              x-show="showMessage">
                             <strong class="font-bold">ERROR!</strong>
                             <span class="block sm:inline">{{ session('error') }}</span>
@@ -147,11 +147,11 @@ new class extends Component {
 
 
                     @else
-                        <div class="h-full w-full text-center sm:text-start">
-                            <div  id="asteriscos" class="text-3xl"> {{ $mostrarAsteriscos }} </div>
+                        <div class="sm:flex sm:justify-center sm:items-center text-center sm:text-start">
+                            <div  id="asteriscos" class="text-6xl"> {{ $mostrarAsteriscos }} </div>
                         </div>
                         @if ($muestro)
-                            <div wire:visible="muestro" class="h-full w-full text-center sm:text-start">
+                            <div wire:visible="muestro" class="sm:flex sm:justify-center sm:items-center text-center sm:text-start">
                                 <div  wire:visible="muestro"  class="text-3xl"> Código debe ser 4 dígitos</div>
                                 <button
                                     wire:visible="muestro"
@@ -171,7 +171,7 @@ new class extends Component {
 
 
             <!-- Avatar Group -->
-            <div class="sm:flex sm:justify-center sm:items-center text-center sm:text-start h-10 !h-auto">
+            <div class="sm:flex sm:justify-center sm:items-center text-center sm:text-start">
 
 
 

@@ -18,9 +18,13 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@cdm.com',
-            'teclado_id' => 1111
+            'teclado_id' => 1234
         ]);
-
+        User::factory()->create([
+            'name' => 'Pablo',
+            'email' => 'pablo@iracustica.com',
+            'teclado_id' => 4321
+        ]);
 
         $this->call(BrandsSeeder::class);
         $this->call(CategoriesSeeder::class);

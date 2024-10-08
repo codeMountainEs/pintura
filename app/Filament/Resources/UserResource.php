@@ -38,7 +38,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('teclado_id')
                     ->required()
                     ->numeric()
-                    ->unique(User::class)
+                    ->unique(ignoreRecord: true)
                     ->minLength(4)
                     ->maxLength(4)
                     ->default(0),
