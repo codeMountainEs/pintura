@@ -26,9 +26,18 @@ class MovimientoResource extends Resource
 
     public static function calculateTotal($state, $get, $set): void
     {
-            $total = $get('precio') ?? 0  * $get('cantidad') ?? 0 ;
-        //dd($get('precio') , $get('cantidad'), $total);
+            $total = $get('precio') ?? 0  * $get('cantidad')  ;
+        //dd($get('precio') , $get('cantidad'), $total, $state);
             $set('total', number_format($total, 2,'.',''));
+
+    }
+
+    public static function calculateTotalState($state, $get, $set): void
+    {
+        $total = $get('precio')   * $get('cantidad')  ;
+       // dd($get('precio') , $get('cantidad'), $total, $state);
+
+        $set('total', number_format($total, 2,'.',''));
 
     }
     public static function calculateCantidad( $get, $set): void
@@ -61,7 +70,7 @@ class MovimientoResource extends Resource
                             Forms\Components\ToggleButtons::make('tipo')
                                 ->inline()
                                 ->default('Salidas')
-                                ->live()
+                                ->live( debounce: 500)
                                 ->columnSpanFull()
                                 ->options([
                                     'Entradas' => 'Entradas',
@@ -77,19 +86,19 @@ class MovimientoResource extends Resource
 
                                 ]),
                             Forms\Components\TextInput::make('origen')
-                                ->live()
+                                ->live( debounce: 500)
                                 ->visible(fn (Forms\Get $get): bool => $get('tipo') === 'Entradas')
                                 ->columnSpanFull(),
 
                             Forms\Components\TextInput::make('destino')
-                                ->live()
+                                ->live( debounce: 500)
                                 ->visible(fn (Forms\Get $get): bool => $get('tipo') === 'Salidas')
                                 ->columnSpanFull(),
 
                             Forms\Components\Select::make('product_id')
                                 ->relationship('product', 'name')
                                 ->required()
-                                ->live()
+                                ->live( debounce: 500)
                                 ->preload()
                                 ->columnSpanFull()
                                 ->createOptionForm(
@@ -143,7 +152,7 @@ class MovimientoResource extends Resource
                             ->required()
                             ->default(1)
                             ->visible(fn (Forms\Get $get): bool => $get('tipo') === 'Salidas')
-                            ->live()
+                            ->live(debounce: 500)
                             ->prefix('M2')
                             ->afterStateUpdated(
                                 function ($state, Forms\Get $get, Set $set) {
@@ -181,7 +190,7 @@ class MovimientoResource extends Resource
                             ->afterStateUpdated(
                                 function ($state, Forms\Get $get, Set $set) {
 
-                                    self::calculateTotal($state, $get, $set);
+                                    self::calculateTotalState($state, $get, $set);
                                 }
                             ),
 

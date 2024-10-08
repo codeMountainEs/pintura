@@ -119,7 +119,7 @@ new class extends Component {
             <!-- End Title -->
 
 
-            <div class="h-50 !h-auto w-full sm:flex  sm:justify-center sm:items-center text-center sm:text-start">
+            <div class="!h-50  w-full sm:flex  sm:justify-center sm:items-center text-center sm:text-start">
                 <div x-data="{ showMessage: true }" x-init="setTimeout(() => showMessage = false, 3000)">
                     @if (session()->has('message'))
                         <div class="h-full w-full bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert"  
