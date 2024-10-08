@@ -192,7 +192,7 @@ new class extends Component {
                 <div class="border-t sm:border-t-0 sm:border-s border-gray-200 w-32 h-px sm:w-auto sm:h-full mx-auto sm:mx-0 dark:border-neutral-700"></div>
 
                 <div class="pt-5 sm:pt-0 sm:ps-5">
-                    <div class="text-lg font-semibold text-gray-800 dark:text-neutral-200">Introduce tu código</div>
+                    <div class="text-lg font-semibold text-gray-800 dark:text-neutral-200">Introduce tu código v3.4</div>
                     <div class="text-sm text-gray-500 dark:text-neutral-500">Entrada / Salida / Ausencia </div>
                 </div>
             </div>
