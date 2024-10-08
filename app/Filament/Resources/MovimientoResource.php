@@ -26,7 +26,12 @@ class MovimientoResource extends Resource
 
     public static function calculateTotal($state, $get, $set): void
     {
-            $total = $get('precio') ?? 0  * $get('cantidad')  ;
+
+        $precio = $get('precio') ?? 0 ;
+        $cantidad = $get('cantidad') ?? 1;
+
+
+        $total = $precio * $cantidad;
         //dd($get('precio') , $get('cantidad'), $total, $state);
             $set('total', number_format($total, 2,'.',''));
 
@@ -34,8 +39,11 @@ class MovimientoResource extends Resource
 
     public static function calculateTotalState($state, $get, $set): void
     {
-        $total = $get('precio')   * $get('cantidad')  ;
-       // dd($get('precio') , $get('cantidad'), $total, $state);
+        $precio = $get('precio') ?? 1 ;
+        $cantidad = $get('cantidad') ?? 1;
+
+        $total = $precio * $cantidad;
+     //  dd($get('precio') , $get('cantidad'), $cantidad, $precio, $total, $state);
 
         $set('total', number_format($total, 2,'.',''));
 
@@ -143,8 +151,10 @@ class MovimientoResource extends Resource
                             ->live(debounce: 500)
                             ->afterStateUpdated(
                                 function ($state, Forms\Get $get, Set $set) {
-                                    self::calculateCantidad( $get, $set);
-                                    self::calculateTotal($state, $get, $set);
+                                    if($state !== null or $get('rendimiento') !== '') {
+                                        self::calculateTotalState($state, $get, $set);
+                                        self::calculateCantidad( $get, $set);
+                                    }
                                 }
                             )
                             ->numeric(),
@@ -156,8 +166,11 @@ class MovimientoResource extends Resource
                             ->prefix('M2')
                             ->afterStateUpdated(
                                 function ($state, Forms\Get $get, Set $set) {
-                                    self::calculateCantidad( $get, $set);
-                                    self::calculateTotal($state, $get, $set);
+
+                                    if($state !== null or $get('superficie') !== '') {
+                                        self::calculateTotalState($state, $get, $set);
+                                        self::calculateCantidad( $get, $set);
+                                    }
                                 }
                             )
                             ->numeric(),
@@ -167,7 +180,9 @@ class MovimientoResource extends Resource
                             ->afterStateUpdated(
                                 function ($state, Forms\Get $get, Set $set) {
 
-                                    self::calculateTotal($state, $get, $set);
+                                    if($state !== null or $get('precio') !== '') {
+                                        self::calculateTotalState($state, $get, $set);
+                                    }
                                 }
                             )
                             ->numeric()
@@ -176,7 +191,8 @@ class MovimientoResource extends Resource
                         Forms\Components\TextInput::make('cantidad')
                             ->numeric()
                             ->required()
-                            ->default(1)
+
+
                             ->live( debounce: 500)
 
                             ->prefix(function ( Forms\Get $get){
@@ -189,8 +205,9 @@ class MovimientoResource extends Resource
                             )
                             ->afterStateUpdated(
                                 function ($state, Forms\Get $get, Set $set) {
-
-                                    self::calculateTotalState($state, $get, $set);
+                                    if($state !== null or $get('cantidad') !== '') {
+                                        self::calculateTotalState($state, $get, $set);
+                                    }
                                 }
                             ),
 
