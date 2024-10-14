@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\AccesoExporter;
 use App\Filament\Resources\AccesoResource\Pages;
 use App\Filament\Resources\AccesoResource\RelationManagers;
 use App\Models\Acceso;
+use Filament\Actions\ExportAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -49,10 +51,7 @@ class AccesoResource extends Resource
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('hora'),
-                Tables\Columns\TextColumn::make('fecha_real')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('hora_real'),
+
                 Tables\Columns\TextColumn::make('descripcion')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('observaciones')
@@ -87,6 +86,10 @@ class AccesoResource extends Resource
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     })
+            ])
+            ->headerActions([
+                Tables\Actions\ExportAction::make()
+                    ->exporter(AccesoExporter::class)
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

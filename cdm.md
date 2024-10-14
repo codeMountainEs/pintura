@@ -136,4 +136,23 @@ php artisan make:livewire partials.navbar
 php artisan make:livewire partials.footer
 
 
+# filtros de laravel daily 
 
+# export csd EXPORT ACTION filamentphp
+# Laravel 11 and higher
+php artisan make:queue-batches-table
+php artisan make:notifications-table
+
+->headerActions([
+ExportAction::make()
+->exporter(ProductExporter::class)
+]);
+
+php artisan make:filament-exporter Product
+
+php artisan make:filament-exporter Acceso --generate
+Filament exporter [app/Filament/Exports/AccesoExporter.php] created successfully
+
+
+# FILTROS LIVEWIRE3 CDW
+php artisan ma
