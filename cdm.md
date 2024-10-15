@@ -156,3 +156,10 @@ Filament exporter [app/Filament/Exports/AccesoExporter.php] created successfully
 
 # FILTROS LIVEWIRE3 CDW
 php artisan ma
+
+
+
+# rama main 
+php artisan composer make:migration add_rendimiento2_to_products
+php artisan composer make:migration add_rendimiento2_to_movimientos
+

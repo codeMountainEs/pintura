@@ -21,4 +21,5 @@ class EditMovimiento extends EditRecord
     {
         return static::getResource()::getUrl('index');
     }
+
 }

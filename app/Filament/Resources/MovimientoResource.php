@@ -13,10 +13,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class MovimientoResource extends Resource
 {
@@ -51,12 +47,30 @@ class MovimientoResource extends Resource
     public static function calculateCantidad( $get, $set): void
     {
 
-        $capas = $get('capas') ?? 0 ;
-        $superficie = $get('superficie') ?? 0 ;
-        $rendimiento = $get('rendimiento') ?? 1;
+        $capas = $get('capas') ?? 1 ;
+        $unidades = $get('unidades') ?? 1 ;
 
+        $superficie = $get('superficie') ?? 1 ;
+        $rendimiento = $get('rendimiento') ?? 1;
+        $rendimiento2 = $get('rendimiento2') ?? 1;
+        $tipo_rendimiento = $get('rendimiento_tipo');
+        $pintura = 0 ;
+
+        if($tipo_rendimiento == 'Kg/m2') {
+            $pintura = (1 / $rendimiento) * $capas ;
+
+        }else{
+            $pintura = (1 / $rendimiento2) * $capas ;
+
+        }
+        $set('pintura', number_format($pintura, 2,'.',''));
+
+        $area = $unidades * $superficie;
+        $set('area', number_format($area, 2,'.',''));
+
+//dd($capas, $area, $pintura,1 / $rendimiento, $tipo_rendimiento);
         if ($get('tipo') === 'Salidas') {
-            $cantidad = $capas  * ($superficie  / $rendimiento);
+            $cantidad =  $pintura * $area;
         } else {
             $cantidad = 1; // Ejemplo de valor por defecto
         }
@@ -105,6 +119,8 @@ class MovimientoResource extends Resource
 
                             Forms\Components\Select::make('product_id')
                                 ->relationship('product', 'name')
+                                ->label('Producto')
+                                ->searchable()
                                 ->required()
                                 ->live( debounce: 500)
                                 ->preload()
@@ -113,32 +129,105 @@ class MovimientoResource extends Resource
                                     Product::getForm()
                                 )
                                 ->afterStateUpdated(
-                                    fn($state, Forms\Set $set) => [
-                                        $set('descripcion', Product::find($state)?->description ?? 'li'),
+                                    function ($state, Forms\Set $set, Forms\Get $get) {
 
-                                        $set('medida', Product::find($state)?->medida ?? 'li'),
-                                        $set('rendimiento', Product::find($state)?->rendimiento ?? '1'),
-                                        $set('precio', Product::find($state)?->price ?? 0),
-                                        $set('stock', Product::find($state)?->stock() ?? 1),
-                                        $set('superficie', 1),
+                                        $set('descripcion', Product::find($state)?->description ?? 'li');
 
-                                    ]
+                                        $set('medida', Product::find($state)?->medida ?? 'li');
+                                        $set('rendimiento', Product::find($state)?->rendimiento ?? '1');
+                                        $set('rendimiento2', Product::find($state)?->rendimiento2 ?? '1');
+                                        $set('precio', Product::find($state)?->price ?? 0);
+                                        $set('stock', Product::find($state)?->stock() ?? 1);
+                                        $set('superficie', 1);
+
+                                        self::calculateCantidad( $get, $set);
+
+                                    }
+
+
+
                                 ),
                             Forms\Components\TextInput::make('stock')
+                                ->label('Stock Actual')
                                 ->readOnly(true),
+
                             Forms\Components\TextInput::make('medida')
                                 ->readOnly(true),
                             Forms\Components\TextInput::make('descripcion')
                                 ->columnSpanFull(),
 
+                            Forms\Components\ToggleButtons::make('rendimiento_tipo')
+                                ->label('Rendimiento')
+                                ->visible(fn (Forms\Get $get): bool => $get('tipo') === 'Salidas')
+                                ->inline()
+                                ->default('Kg/m2')
+                                ->live( debounce: 500)
+
+                                ->options([
+                                    'Kg/m2' => 'Kg/m2',
+                                    'Kg/mL' => 'Kg/mL',
+                                ])
+                                ->colors([
+                                    'Kg/m2' => 'primary',
+                                    'Kg/mL' => 'success',
+                                ])
+                                ->icons([
+                                    'Kg/m2' => 'heroicon-m-sparkles',
+                                    'Kg/mL' => 'heroicon-m-arrow-path',
+
+                                ])
+                                ->afterStateUpdated(
+                                    function ($state, Forms\Get $get, Set $set) {
+                                        if($state !== null ) {
+                                            self::calculateTotalState($state, $get, $set);
+                                            self::calculateCantidad( $get, $set);
+                                        }
+
+                                    }
+                                )
+                            ,
+                            Forms\Components\TextInput::make('rendimiento')
+                                ->label('Rendimiento Kg/m2 , Con 1kg cubre :')
+                                ->suffix('m2')
+                                ->visible(fn (Forms\Get $get): bool => $get('tipo') === 'Salidas' and $get('rendimiento_tipo') === 'Kg/m2')
+                                ->live(debounce: 500)
+                                ->afterStateUpdated(
+                                    function ($state, Forms\Get $get, Set $set) {
+                                        if($state !== null or $get('rendimiento') !== '') {
+                                            self::calculateTotalState($state, $get, $set);
+                                            self::calculateCantidad( $get, $set);
+                                        }
+                                    }
+                                )
+                                ->numeric(),
+                            Forms\Components\TextInput::make('rendimiento2')
+                                ->label('Rendimiento Kg/mL , Con 1kg cubre :')
+                                ->suffix('mL')
+                                ->visible(fn (Forms\Get $get): bool => $get('tipo') === 'Salidas' && $get('rendimiento_tipo') === 'Kg/mL')
+                                ->live(debounce: 500)
+                                ->afterStateUpdated(
+                                    function ($state, Forms\Get $get, Set $set) {
+                                        if($state !== null or $get('rendimiento2') !== '') {
+                                            self::calculateTotalState($state, $get, $set);
+                                            self::calculateCantidad( $get, $set);
+                                        }
+                                    }
+                                )
+                                ->numeric(),
+
                         ])->columns(2),
 
+
                 ])->columnSpan(2),
+
+
 
                 Forms\Components\Group::make()->schema([
                     Forms\Components\Section::make('Datos del producto')->schema([
 
                         Forms\Components\TextInput::make('capas')
+                            ->visible(fn (Forms\Get $get): bool => $get('tipo') === 'Salidas')
+                            ->live(debounce: 500)
                             ->default(1)
                             ->afterStateUpdated(
                                 function ($state, Forms\Get $get, Set $set) {
@@ -146,12 +235,18 @@ class MovimientoResource extends Resource
                                 }
                             )
                             ->numeric(),
-                        Forms\Components\TextInput::make('rendimiento')
-                            ->prefix('kg/M2')
+
+
+                        Forms\Components\TextInput::make('unidades')
+                            ->required()
+                            ->default(1)
+                            ->visible(fn (Forms\Get $get): bool => $get('tipo') === 'Salidas')
                             ->live(debounce: 500)
+                            ->prefix('Unidades')
                             ->afterStateUpdated(
                                 function ($state, Forms\Get $get, Set $set) {
-                                    if($state !== null or $get('rendimiento') !== '') {
+
+                                    if($state !== null or $get('superficie') !== '') {
                                         self::calculateTotalState($state, $get, $set);
                                         self::calculateCantidad( $get, $set);
                                     }
@@ -160,6 +255,7 @@ class MovimientoResource extends Resource
                             ->numeric(),
                         Forms\Components\TextInput::make('superficie')
                             ->required()
+                            ->label('Superficie por Unidad')
                             ->default(1)
                             ->visible(fn (Forms\Get $get): bool => $get('tipo') === 'Salidas')
                             ->live(debounce: 500)
@@ -175,7 +271,24 @@ class MovimientoResource extends Resource
                             )
                             ->numeric(),
 
-                        Forms\Components\TextInput::make('precio')
+                        Forms\Components\Section::make()
+                            ->columns(2)
+                            ->schema([
+                                Forms\Components\TextInput::make('area')
+                                    ->label('Area Total ')
+                                    ->visible(fn (Forms\Get $get): bool => $get('tipo') === 'Salidas')
+                                    ->readOnly()
+                                    ->numeric()
+                                    ->prefix('M2'),
+                                Forms\Components\TextInput::make('pintura')
+                                    ->label('kg x m2')
+                                    ->visible(fn (Forms\Get $get): bool => $get('tipo') === 'Salidas')
+                                    ->numeric()
+                                    ->prefix('Kg'),
+
+                        ]),
+
+                        /*Forms\Components\TextInput::make('precio')
                             ->live( debounce: 500)
                             ->afterStateUpdated(
                                 function ($state, Forms\Get $get, Set $set) {
@@ -186,7 +299,7 @@ class MovimientoResource extends Resource
                                 }
                             )
                             ->numeric()
-                            ->prefix('EUR'),
+                            ->prefix('EUR'),*/
 
                         Forms\Components\TextInput::make('cantidad')
                             ->numeric()
@@ -213,6 +326,7 @@ class MovimientoResource extends Resource
 
                         Forms\Components\TextInput::make('total')
                             ->numeric()
+                            ->visible(false)
                             ->default(0)
                             ->required()
                             ->disabled()
@@ -274,7 +388,25 @@ class MovimientoResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('product')
+                    ->relationship('product', 'name'),
+                Tables\Filters\Filter::make('created_at')
+                    ->form([
+                        Forms\Components\DatePicker::make('created_from')->label('Fecha desde'),
+                        Forms\Components\DatePicker::make('created_until')->label('Fecha Hasta'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['created_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    })
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
