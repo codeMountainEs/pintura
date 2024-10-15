@@ -351,7 +351,12 @@ class MovimientoResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('tipo')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('origen')
+
+                Tables\Columns\TextColumn::make('cantidad')
+                    ->numeric()
+                    ->sortable(),
+
+            /*    Tables\Columns\TextColumn::make('origen')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('descripcion')
                     ->searchable(),
@@ -364,9 +369,7 @@ class MovimientoResource extends Resource
                 Tables\Columns\TextColumn::make('superficie')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('cantidad')
-                    ->numeric()
-                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('medida')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('precio')
@@ -376,7 +379,7 @@ class MovimientoResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('destino')
-                    ->searchable(),
+                    ->searchable(),*/
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
