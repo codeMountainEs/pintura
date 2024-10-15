@@ -115,6 +115,8 @@ php artisan make:volt chirps/create --class
 /resources/views/livewire/accesos/create.blade.php
 
 
+php artisan make:policy TagPolicy --model=Tag
+
 
 # Añadir teclado_id a user
 
@@ -160,6 +162,26 @@ php artisan ma
 
 
 # rama main 
-php artisan composer make:migration add_rendimiento2_to_products
-php artisan composer make:migration add_rendimiento2_to_movimientos
+php artisan  make:migration add_rendimiento2_to_products
+php artisan  make:migration add_rendimiento2_to_movimientos
+
+# Roles y Permisos 
+
+php artisan make:model Role -m 
+php artisan make:migration add_role_to_users 
+
+user role_id 
+    role()
+    admin()
+
+php artisan make:policy MovimientoPolicy --model=Movimiento
+php artisan make:policy UserPolicy --model=User
+php artisan make:policy AccesoPolicy --model=Acceso
+php artisan make:policy CategoryPolicy --model=Category
+php artisan make:policy BrandPolicy --model=Brand
+php artisan make:policy CategoryPolicy --model=Category
+php artisan make:policy ProductPolicy --model=Product
+
+
+
 

@@ -25,6 +25,7 @@ class ProductResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $recordTitleAttribute = 'name';
+    protected static ?string $navigationGroup = 'Tablas';
 
 
     public static function form(Form $form): Form

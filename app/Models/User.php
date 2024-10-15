@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
         'teclado_id',
     ];
 
@@ -58,4 +60,28 @@ class User extends Authenticatable
         return static::where('teclado_id',$codigo)->first();
 
     }
+
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        if (!$this->relationLoaded('role')) {
+            $this->load('role');
+        }
+
+        return $this->role->name === 'Admin';
+    }
+
+    public function isTaller(): bool
+    {
+        if (!$this->relationLoaded('role')) {
+            $this->load('role');
+        }
+
+        return $this->role->name === 'Taller';
+    }
+
 }

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\Role;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -19,11 +20,21 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Tablas';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('role_id')
+                    ->searchable()
+                    ->preload()
+                    ->required()
+                    ->createOptionForm(
+                        Role::getForm()
+                    )
+                    ->relationship('role', 'name'),
+
                 Forms\Components\TextInput::make('name')
                     ->required(),
                 Forms\Components\TextInput::make('email')
@@ -35,6 +46,8 @@ class UserResource extends Resource
                     ->password()
                     ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                     ->dehydrated(fn (?string $state): bool => filled($state))
+                    ->required(fn(string $operation): bool => $operation === 'create')
+
                 ,
                 Forms\Components\TextInput::make('teclado_id')
                     ->required()
@@ -55,6 +68,9 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
 
                     ->searchable(),
+                Tables\Columns\TextColumn::make('role.name')
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable(),
@@ -67,7 +83,6 @@ class UserResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('teclado_id')
-                    ->numeric()
 
                     ->sortable(),
             ])
