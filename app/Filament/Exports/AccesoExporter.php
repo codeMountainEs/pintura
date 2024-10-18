@@ -16,16 +16,20 @@ class AccesoExporter extends Exporter
         return [
             ExportColumn::make('id')
                 ->label('ID'),
-            ExportColumn::make('user_id'),
+            ExportColumn::make('user.name'),
             ExportColumn::make('fecha'),
             ExportColumn::make('hora'),
             ExportColumn::make('fecha_real'),
             ExportColumn::make('hora_real'),
-            ExportColumn::make('descripcion'),
+          /*  ExportColumn::make('descripcion'),
             ExportColumn::make('observaciones'),
             ExportColumn::make('condicion'),
             ExportColumn::make('created_at'),
             ExportColumn::make('updated_at'),
+            ExportColumn::make('total_horas')
+                ->state(function (Order $record): float {
+                    return $record->hora + 8;
+                })*/
         ];
     }
 

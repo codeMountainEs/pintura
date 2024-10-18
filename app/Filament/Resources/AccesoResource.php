@@ -7,6 +7,7 @@ use App\Filament\Resources\AccesoResource\Pages;
 use App\Filament\Resources\AccesoResource\RelationManagers;
 use App\Models\Acceso;
 use Filament\Actions\ExportAction;
+use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -97,6 +98,11 @@ class AccesoResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ExportAction::make()
+                        ->exporter(AccesoExporter::class)
+                    ->formats([
+                        ExportFormat::Csv,
+                    ])
                 ]),
             ]);
     }

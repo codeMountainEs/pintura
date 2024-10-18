@@ -184,4 +184,9 @@ php artisan make:policy ProductPolicy --model=Product
 
 
 
+# notification 
 
+php artisan make:notifications-table
+
+
+php artian que
