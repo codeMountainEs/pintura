@@ -14,8 +14,8 @@ class BrandsSeeder extends Seeder
     public function run(): void
     {
         $marcas = [
-            'marca 1',
-            'marca 2',
+            'INTERPON',
+
 
 
         ];

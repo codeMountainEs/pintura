@@ -14,10 +14,11 @@ class ProductsSeeder extends Seeder
     public function run(): void
     {
         $productos = [
-            'producto  1',
-            'producto  2',
-
-
+            'RAL 6003 TEXTURADO',
+            'RAL 9005 TEXTURADO',
+            'RAL 9003 MATE',
+            'RAL 7016 TEXTURADO',
+            'RAL 6018 SATINADO',
         ];
 
         foreach ($productos as $producto) {
@@ -27,11 +28,18 @@ class ProductsSeeder extends Seeder
                 'category_id' => 1,
                 'brand_id' => 1,
                 'rendimiento' => 10,
+                'rendimiento2' => 5,
                 'description' => "Marca " . $producto,
-                'medida' => 'Litros',
+                'medida' => 'Kg',
 
             ]);
         }
+
+     /*   protected $fillable = ['category_id', 'brand_id', 'name',
+        'slug', 'images', 'rendimiento', 'rendimiento2',
+        'description', 'price', 'is_active', 'is_featured',
+        'in_stock', 'on_sale', 'medida'];*/
+
 
 
 

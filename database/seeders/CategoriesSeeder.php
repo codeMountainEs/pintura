@@ -14,8 +14,8 @@ class CategoriesSeeder extends Seeder
     public function run(): void
     {
         $marcas = [
-            'Categoria 1',
-            'categoria 2',
+            'POLVO',
+
 
 
         ];
