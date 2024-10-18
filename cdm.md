@@ -189,4 +189,6 @@ php artisan make:policy ProductPolicy --model=Product
 php artisan make:notifications-table
 
 
-php artian que
+php artian queue:work
+
+## activar en servidor 
