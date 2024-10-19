@@ -47,25 +47,31 @@ class MovimientoResource extends Resource
     public static function calculateCantidad( $get, $set): void
     {
 
-        $capas = $get('capas') ?? 1 ;
-        $unidades = $get('unidades') ?? 1 ;
+        $capas = $get('capas') ?? 1;
+        $unidades = $get('unidades') ?? 1;
 
-        $superficie = $get('superficie') ?? 1 ;
+        $superficie = $get('superficie') ?? 1;
         $rendimiento = $get('rendimiento') ?? 1;
         $rendimiento2 = $get('rendimiento2') ?? 1;
         $tipo_rendimiento = $get('rendimiento_tipo');
-        $pintura = 0 ;
+        $pintura = 0;
+        $area = 1;
 
-        if($tipo_rendimiento == 'Kg/m2') {
-            $pintura = (1 / $rendimiento) * $capas ;
+        if($capas > 0){
+            if ($tipo_rendimiento == 'Kg/m2') {
+                $pintura = (1 / $rendimiento) * $capas;
 
-        }else{
-            $pintura = (1 / $rendimiento2) * $capas ;
+            } else {
+                $pintura = (1 / $rendimiento2) * $capas;
 
+            }
         }
-        $set('pintura', number_format($pintura, 2,'.',''));
+        $set('pintura', number_format($pintura, 2, '.', ''));
 
-        $area = $unidades * $superficie;
+
+        if ($unidades > 0){
+            $area = $unidades * $superficie;
+        }
         $set('area', number_format($area, 2,'.',''));
 
 //dd($capas, $area, $pintura,1 / $rendimiento, $tipo_rendimiento);
@@ -281,7 +287,8 @@ class MovimientoResource extends Resource
                                     ->numeric()
                                     ->prefix('M2'),
                                 Forms\Components\TextInput::make('pintura')
-                                    ->label('kg x m2')
+                                    ->label('Kg x m2')
+                                    ->readOnly()
                                     ->visible(fn (Forms\Get $get): bool => $get('tipo') === 'Salidas')
                                     ->numeric()
                                     ->prefix('Kg'),
