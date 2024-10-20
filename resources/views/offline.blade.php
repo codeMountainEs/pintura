@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>IrAcustica</title>
-    @laravelPWA
 
 
 
@@ -14,7 +13,8 @@
 
 </head>
 <body class="antialiased font-sans">
-    <livewire:accesos.create />
+
+    <h1> Off Line </h1>
 
 </body>
 </html>

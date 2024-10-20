@@ -108,7 +108,7 @@ new class extends Component {
             <!-- Title -->
             <div class="text-center">
                 <p class="text-3xl font-semibold text-gray-500 tracking-wide uppercase mb-3 dark:text-neutral-200">
-                    REGISTRO DE ACCESO
+                    REGISTRO DE ACCESOss
                 </p>
                 <a href="/admin" class="text-blue-500 hover:underline">
                     <h1 class="text-3xl text-gray-800 font-bold sm:text-5xl lg:text-6xl lg:leading-tight dark:text-neutral-200">
